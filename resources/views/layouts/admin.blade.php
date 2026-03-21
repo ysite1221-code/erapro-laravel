@@ -55,6 +55,36 @@
         }
         .admin-logout-btn:hover { background: rgba(239,68,68,0.2); color: #fc8181; border-color: rgba(239,68,68,0.3); }
 
+        /* フッター */
+        .admin-footer {
+            width: 100%;
+            padding: 20px 0 24px;
+            border-top: 1px solid #e8eaf0;
+            background: transparent;
+            margin-top: auto;
+        }
+        .admin-footer .footer-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: nowrap;
+            gap: 32px;
+        }
+        .admin-footer .footer-links a {
+            white-space: nowrap;
+            font-size: 0.78rem;
+            color: #6b7280;
+            text-decoration: none;
+            transition: color 0.18s;
+        }
+        .admin-footer .footer-links a:hover { color: #1a1f36; text-decoration: underline; }
+        .admin-footer .copyright {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.72rem;
+            color: #9ca3af;
+        }
+
         /* メインエリア */
         .admin-main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
         .admin-topbar {

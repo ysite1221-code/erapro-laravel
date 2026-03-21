@@ -112,6 +112,12 @@
            class="{{ request()->routeIs('admin.reports.*') ? 'active' : '' }}">
             <span class="material-icons-outlined">flag</span>通報管理
         </a>
+
+        <div class="admin-nav-section">設定</div>
+        <a href="{{ route('admin.admins.create') }}"
+           class="{{ request()->routeIs('admin.admins.*') ? 'active' : '' }}">
+            <span class="material-icons-outlined">admin_panel_settings</span>管理者追加
+        </a>
     </nav>
     <div class="admin-sidebar-footer">
         @auth('admin')

@@ -136,8 +136,8 @@ class RegisterController extends Controller
         Auth::guard('agent')->login($agent);
         request()->session()->regenerate();
 
-        return redirect()->route('agent.dashboard')
-            ->with('status', 'メールアドレスの認証が完了しました！次にプロフィールとKYCの設定をお願いします。');
+        return redirect()->route('agent.kyc.form')
+            ->with('status', 'メールアドレスの認証が完了しました！次に本人確認（KYC）書類の提出をお願いします。');
     }
 
     public function resendAgentVerification(Request $request): RedirectResponse

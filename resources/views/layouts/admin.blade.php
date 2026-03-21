@@ -83,7 +83,8 @@
 
 <aside class="admin-sidebar">
     <div class="admin-sidebar-logo">
-        <span>ERAPRO</span>
+        <img src="{{ asset('img/logo_white.png') }}" alt="ERAPRO"
+             style="max-width:140px; height:auto; display:block;">
         <small>ADMIN PANEL</small>
     </div>
     <nav class="admin-nav">

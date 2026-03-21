@@ -27,16 +27,10 @@
     .merit-card p  { font-size:0.88rem; color:#666; line-height:1.85; margin:0; }
 
     /* 料金 */
-    .plan-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:24px; }
+    .plan-single { max-width:480px; margin:0 auto; }
     .plan-card {
         background:#fff; border-radius:8px; box-shadow:0 2px 16px rgba(0,0,0,0.07);
-        padding:36px 28px; text-align:center; border:2px solid transparent;
-    }
-    .plan-card.featured { border-color:#1a1a1a; position:relative; }
-    .plan-card.featured::before {
-        content:'おすすめ'; position:absolute; top:-14px; left:50%; transform:translateX(-50%);
-        background:#1a1a1a; color:#fff; font-size:0.75rem; font-weight:700;
-        padding:4px 16px; border-radius:20px; letter-spacing:0.05em;
+        padding:40px 36px; text-align:center; border:1px solid #e8e8e8;
     }
     .plan-name  { font-size:1.1rem; font-weight:900; color:#111; margin-bottom:8px; }
     .plan-price { font-size:2.4rem; font-weight:900; color:#1a1a1a; line-height:1; margin-bottom:4px; }
@@ -105,28 +99,18 @@
 
 {{-- 料金プラン --}}
 <div class="lp-section" style="margin-top:96px;">
-    <h2 class="lp-section-title">料金プラン</h2>
-    <p class="lp-section-lead">まずは無料プランでお試しいただけます。</p>
-    <div class="plan-grid">
+    <h2 class="lp-section-title">ご利用料金</h2>
+    <p class="lp-section-lead">現在は無料で掲載・相談受付をご利用いただけます。</p>
+    <div class="plan-single">
         <div class="plan-card">
-            <div class="plan-name">フリープラン</div>
+            <div class="plan-name">基本プラン</div>
             <div class="plan-price">¥0<span>/月</span></div>
-            <p class="plan-desc">基本機能を無料で利用できます。</p>
+            <p class="plan-desc">サービス立ち上げ期間中につき、基本機能を無料でご利用いただけます。</p>
             <ul class="plan-list">
                 <li>プロフィール掲載</li>
-                <li>問い合わせ受付（月5件まで）</li>
+                <li>問い合わせ受付</li>
                 <li>クチコミ収集</li>
-            </ul>
-        </div>
-        <div class="plan-card featured">
-            <div class="plan-name">スタンダードプラン</div>
-            <div class="plan-price">¥3,980<span>/月</span></div>
-            <p class="plan-desc">本格的な集客・管理に。</p>
-            <ul class="plan-list">
-                <li>プロフィール掲載（優先表示）</li>
-                <li>問い合わせ受付（無制限）</li>
                 <li>顧客管理機能</li>
-                <li>検索上位表示</li>
                 <li>KYC認証バッジ</li>
             </ul>
         </div>

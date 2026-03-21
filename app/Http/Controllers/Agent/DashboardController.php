@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Agent;
 
 use App\Http\Controllers\Controller;
+use App\Models\InquiryMessage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -78,10 +79,16 @@ class DashboardController extends Controller
         $completionPct = (int) round($filled / count($completionItems) * 100);
         $isPublic = !empty($agent->title) && !empty($agent->story);
 
+        // 未読件数：ユーザーから送信されたis_read=falseのメッセージ数
+        $unreadCount = InquiryMessage::whereHas('inquiry', fn($q) => $q->where('agent_id', $agent->id))
+            ->where('sender_type', 'user')
+            ->where('is_read', false)
+            ->count();
+
         return view('agent.dashboard', compact(
             'agent', 'monthlyViews', 'todayViews', 'favCount', 'myAgentCount',
             'reviewStats', 'recentReviews', 'recentViews',
-            'completionItems', 'completionPct', 'isPublic'
+            'completionItems', 'completionPct', 'isPublic', 'unreadCount'
         ));
     }
 }

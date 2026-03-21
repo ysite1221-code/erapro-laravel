@@ -258,6 +258,14 @@
         </a>
         @endif
         <a href="{{ route('user.inquiries.index') }}" class="qa-card" style="position:relative;">
+            @if ($unreadCount > 0)
+            <span style="position:absolute;top:10px;right:10px;background:#ef4444;color:#fff;
+                         font-size:0.68rem;font-weight:700;min-width:20px;height:20px;
+                         border-radius:10px;display:inline-flex;align-items:center;
+                         justify-content:center;padding:0 5px;line-height:1;">
+                {{ $unreadCount > 99 ? '99+' : $unreadCount }}
+            </span>
+            @endif
             <span class="qa-icon">💬</span>
             <h3>送信履歴・進捗</h3>
             <p>相談の対応状況を確認</p>

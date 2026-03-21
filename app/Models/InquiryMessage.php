@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class InquiryMessage extends Model
 {
-    protected $fillable = ['inquiry_id', 'sender_type', 'message'];
+    protected $fillable = ['inquiry_id', 'sender_type', 'message', 'is_read'];
+
+    protected $casts = ['is_read' => 'boolean'];
 
     public function inquiry(): BelongsTo
     {

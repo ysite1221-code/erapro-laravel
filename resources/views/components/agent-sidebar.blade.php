@@ -1,5 +1,16 @@
 @props(['agent', 'active' => ''])
 
+@php
+    $sidebarUnread = 0;
+    if (Auth::guard('agent')->check()) {
+        $agentId = Auth::guard('agent')->id();
+        $sidebarUnread = \App\Models\InquiryMessage::whereHas('inquiry', fn($q) => $q->where('agent_id', $agentId))
+            ->where('sender_type', 'user')
+            ->where('is_read', false)
+            ->count();
+    }
+@endphp
+
 <aside class="sidebar">
     <img src="{{ $agent->profile_img ? asset('storage/' . $agent->profile_img) : 'https://placehold.co/150x150/e0e0e0/888?text=No+Img' }}"
          class="sidebar-avatar" alt="プロフィール">
@@ -13,8 +24,18 @@
             <span class="material-icons-outlined sidebar-icon">person</span>プロフィール編集
         </a></li>
         <li><a href="{{ route('agent.inquiries.index') }}"
-               class="sidebar-link {{ $active === 'inquiries' ? 'active' : '' }}">
-            <span class="material-icons-outlined sidebar-icon">chat</span>問い合わせ管理
+               class="sidebar-link {{ $active === 'inquiries' ? 'active' : '' }}"
+               style="display:flex;align-items:center;justify-content:space-between;">
+            <span style="display:flex;align-items:center;">
+                <span class="material-icons-outlined sidebar-icon">chat</span>問い合わせ管理
+            </span>
+            @if ($sidebarUnread > 0)
+            <span style="background:#ef4444;color:#fff;font-size:0.68rem;font-weight:700;
+                         min-width:18px;height:18px;border-radius:9px;display:inline-flex;
+                         align-items:center;justify-content:center;padding:0 4px;line-height:1;">
+                {{ $sidebarUnread > 99 ? '99+' : $sidebarUnread }}
+            </span>
+            @endif
         </a></li>
         <li><a href="{{ route('agent.customers.index') }}"
                class="sidebar-link {{ $active === 'customers' ? 'active' : '' }}">

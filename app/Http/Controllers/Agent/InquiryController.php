@@ -45,6 +45,12 @@ class InquiryController extends Controller
 
         $inquiry->load(['user', 'messages']);
 
+        // ユーザーからのメッセージを既読化
+        $inquiry->messages()
+            ->where('sender_type', 'user')
+            ->where('is_read', false)
+            ->update(['is_read' => true]);
+
         return view('agent.inquiries.show', [
             'inquiry'      => $inquiry,
             'statusLabels' => self::STATUS_LABELS,

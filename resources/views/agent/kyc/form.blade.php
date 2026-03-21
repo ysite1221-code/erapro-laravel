@@ -106,7 +106,7 @@
             <li><a href="{{ route('agent.inquiries.index') }}" class="sidebar-link">
                 <span class="material-icons-outlined sidebar-icon">chat</span>問い合わせ管理
             </a></li>
-            <li><a href="#" class="sidebar-link">
+            <li><a href="{{ route('agent.customers.index') }}" class="sidebar-link">
                 <span class="material-icons-outlined sidebar-icon">people</span>顧客リスト
             </a></li>
             <li><a href="{{ route('agent.kyc.form') }}" class="sidebar-link active">

@@ -16,7 +16,9 @@ use App\Http\Controllers\User\AgentSearchController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use App\Http\Controllers\User\FavoriteController;
 use App\Http\Controllers\User\InquiryController;
+use App\Http\Controllers\User\ReportController;
 use App\Http\Controllers\User\ReviewController;
+use App\Http\Controllers\Agent\CustomerController as AgentCustomerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,6 +27,9 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/agent-lp', [HomeController::class, 'agentLp'])->name('agent.lp');
+Route::get('/terms',   [HomeController::class, 'terms'])->name('terms');
+Route::get('/privacy', [HomeController::class, 'privacy'])->name('privacy');
 
 // 検索・プロフィール（未ログインでもアクセス可）
 Route::get('/search', [AgentSearchController::class, 'index'])->name('search');
@@ -74,6 +79,8 @@ Route::middleware('auth:user')->group(function () {
     Route::post('/review',             [ReviewController::class, 'store'])->name('review.store');
     Route::get('/inquiries',           [InquiryController::class, 'index'])->name('user.inquiries.index');
     Route::get('/inquiries/{inquiry}', [InquiryController::class, 'show'])->name('user.inquiries.show');
+    Route::get('/report/{agentId}',    [ReportController::class, 'create'])->name('user.report.create');
+    Route::post('/report/{agentId}',   [ReportController::class, 'store'])->name('user.report.store');
 });
 
 /*
@@ -114,6 +121,7 @@ Route::prefix('agent')->name('agent.')->group(function () {
         Route::get('/inquiries',                   [AgentInquiryController::class, 'index'])->name('inquiries.index');
         Route::get('/inquiries/{inquiry}',         [AgentInquiryController::class, 'show'])->name('inquiries.show');
         Route::patch('/inquiries/{inquiry}/status',[AgentInquiryController::class, 'updateStatus'])->name('inquiries.update_status');
+        Route::get('/customers', [AgentCustomerController::class, 'index'])->name('customers.index');
     });
 });
 

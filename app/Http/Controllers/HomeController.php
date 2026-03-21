@@ -10,4 +10,19 @@ class HomeController extends Controller
     {
         return view('home');
     }
+
+    public function agentLp(): View
+    {
+        return view('agent_lp');
+    }
+
+    public function terms(): View
+    {
+        return view('terms');
+    }
+
+    public function privacy(): View
+    {
+        return view('privacy');
+    }
 }

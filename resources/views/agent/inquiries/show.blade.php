@@ -73,13 +73,13 @@
             <li><a href="{{ route('agent.dashboard') }}" class="sidebar-link">
                 <span class="material-icons-outlined sidebar-icon">dashboard</span>ダッシュボード
             </a></li>
-            <li><a href="#" class="sidebar-link">
+            <li><a href="{{ route('agent.profile.edit') }}" class="sidebar-link">
                 <span class="material-icons-outlined sidebar-icon">person</span>プロフィール編集
             </a></li>
             <li><a href="{{ route('agent.inquiries.index') }}" class="sidebar-link active">
                 <span class="material-icons-outlined sidebar-icon">chat</span>問い合わせ管理
             </a></li>
-            <li><a href="#" class="sidebar-link">
+            <li><a href="{{ route('agent.customers.index') }}" class="sidebar-link">
                 <span class="material-icons-outlined sidebar-icon">people</span>顧客リスト
             </a></li>
         </ul>

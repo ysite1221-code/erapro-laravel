@@ -169,7 +169,7 @@
         @if (!$authUser)
         <p class="login-hint">
             <a href="{{ route('login') }}">ログイン</a> または
-            <a href="#">新規登録</a> するとお気に入り・相談機能が使えます
+            <a href="{{ route('user.register') }}">新規登録</a> するとお気に入り・相談機能が使えます
         </p>
         @endif
 
@@ -220,6 +220,18 @@
 
         @if ($authUser && !$userReviewed)
         <a href="{{ route('review.create', $agent->id) }}" class="btn-review-post">★ クチコミを投稿する</a>
+        @endif
+
+        {{-- 通報リンク --}}
+        @if ($authUser)
+        <div style="margin-top:40px;padding-top:24px;border-top:1px solid #f0f0f0;text-align:right;">
+            <a href="{{ route('user.report.create', $agent->id) }}"
+               style="font-size:0.78rem;color:#ccc;transition:color 0.2s;"
+               onmouseover="this.style.color='#dc2626'"
+               onmouseout="this.style.color='#ccc'">
+                🚨 このエージェントを通報する
+            </a>
+        </div>
         @endif
 
     </div>

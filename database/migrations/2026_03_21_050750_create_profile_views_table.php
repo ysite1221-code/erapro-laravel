@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('profile_views', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('agent_id')->constrained('agents');
-            $table->foreignId('user_id')->nullable()->constrained('users');
+            $table->foreignId('agent_id')->constrained('agents')->cascadeOnDelete();
+            $table->foreignId('user_id')->nullable()->constrained('users')->cascadeOnDelete();
             $table->string('viewer_ip')->nullable();
             $table->datetime('viewed_at')->useCurrent();
         });

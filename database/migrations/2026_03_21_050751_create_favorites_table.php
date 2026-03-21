@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('favorites', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('agent_id')->constrained('agents');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('agent_id')->constrained('agents')->cascadeOnDelete();
             $table->tinyInteger('status')->default(1); // 1:お気に入り, 2:My Agent
             $table->timestamps();
             $table->unique(['user_id', 'agent_id']);

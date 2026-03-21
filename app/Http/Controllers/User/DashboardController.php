@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Agent;
+use App\Models\Inquiry;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -69,8 +70,10 @@ class DashboardController extends Controller
             ->latest('updated_at')
             ->get();
 
-        // 未読は inquiries の未対応ステータスで代用（messages廃止のため件数=0で固定）
-        $unreadCount = 0;
+        // 未読件数：エージェントが最後にメッセージを送った相談の数
+        $unreadCount = Inquiry::where('user_id', $user->id)
+            ->whereHas('latestMessage', fn($q) => $q->where('sender_type', 'agent'))
+            ->count();
 
         // 関心事パース
         $userInterests = !empty($user->interests)

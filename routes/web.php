@@ -3,12 +3,14 @@
 use App\Http\Controllers\Admin\AgentController as AdminAgentController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\KycController as AdminKycController;
+use App\Http\Controllers\Admin\ReportController as AdminReportController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Agent\ActivityReportController as AgentActivityReportController;
 use App\Http\Controllers\Agent\CustomerController as AgentCustomerController;
 use App\Http\Controllers\Agent\DashboardController as AgentDashboardController;
 use App\Http\Controllers\Agent\InquiryController as AgentInquiryController;
 use App\Http\Controllers\Agent\ProfileController as AgentProfileController;
+use App\Http\Controllers\Agent\ReportController as AgentReportController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -77,10 +79,11 @@ Route::middleware('auth:user')->group(function () {
     Route::post('/inquiry',            [InquiryController::class, 'store'])->name('inquiry.store');
     Route::get('/review/{agentId}',    [ReviewController::class, 'create'])->name('review.create');
     Route::post('/review',             [ReviewController::class, 'store'])->name('review.store');
-    Route::get('/inquiries',           [InquiryController::class, 'index'])->name('user.inquiries.index');
-    Route::get('/inquiries/{inquiry}', [InquiryController::class, 'show'])->name('user.inquiries.show');
-    Route::get('/report/{agentId}',    [ReportController::class, 'create'])->name('user.report.create');
-    Route::post('/report/{agentId}',   [ReportController::class, 'store'])->name('user.report.store');
+    Route::get('/inquiries',                            [InquiryController::class, 'index'])->name('user.inquiries.index');
+    Route::get('/inquiries/{inquiry}',                  [InquiryController::class, 'show'])->name('user.inquiries.show');
+    Route::post('/inquiries/{inquiry}/messages',        [InquiryController::class, 'storeMessage'])->name('user.inquiries.messages.store');
+    Route::get('/report/{agentId}',                     [ReportController::class, 'create'])->name('user.report.create');
+    Route::post('/report/{agentId}',                    [ReportController::class, 'store'])->name('user.report.store');
 });
 
 /*
@@ -117,11 +120,14 @@ Route::prefix('agent')->name('agent.')->group(function () {
         Route::put('/profile/update',  [AgentProfileController::class, 'update'])->name('profile.update');
         Route::get('/kyc',  [AgentProfileController::class, 'showKycForm'])->name('kyc.form');
         Route::post('/kyc', [AgentProfileController::class, 'submitKyc'])->name('kyc.submit');
-        Route::get('/inquiries',                   [AgentInquiryController::class, 'index'])->name('inquiries.index');
-        Route::get('/inquiries/{inquiry}',         [AgentInquiryController::class, 'show'])->name('inquiries.show');
-        Route::patch('/inquiries/{inquiry}/status',[AgentInquiryController::class, 'updateStatus'])->name('inquiries.update_status');
-        Route::get('/customers', [AgentCustomerController::class, 'index'])->name('customers.index');
-        Route::get('/report',    [AgentActivityReportController::class, 'index'])->name('report');
+        Route::get('/inquiries',                          [AgentInquiryController::class, 'index'])->name('inquiries.index');
+        Route::get('/inquiries/{inquiry}',                [AgentInquiryController::class, 'show'])->name('inquiries.show');
+        Route::patch('/inquiries/{inquiry}/status',       [AgentInquiryController::class, 'updateStatus'])->name('inquiries.update_status');
+        Route::post('/inquiries/{inquiry}/messages',      [AgentInquiryController::class, 'storeMessage'])->name('inquiries.messages.store');
+        Route::get('/customers',                          [AgentCustomerController::class, 'index'])->name('customers.index');
+        Route::get('/report',                             [AgentActivityReportController::class, 'index'])->name('report');
+        Route::get('/report-user/{userId}',               [AgentReportController::class, 'create'])->name('report_user.create');
+        Route::post('/report-user/{userId}',              [AgentReportController::class, 'store'])->name('report_user.store');
     });
 });
 
@@ -142,5 +148,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::patch('/agents/{agent}/toggle-status', [AdminAgentController::class, 'toggleStatus'])->name('agents.toggle_status');
         Route::get('/users',          [AdminUserController::class, 'index'])->name('users.index');
         Route::patch('/users/{user}/toggle-status', [AdminUserController::class, 'toggleStatus'])->name('users.toggle_status');
+        Route::get('/reports',            [AdminReportController::class, 'index'])->name('reports.index');
+        Route::get('/reports/{report}',   [AdminReportController::class, 'show'])->name('reports.show');
+        Route::patch('/reports/{report}', [AdminReportController::class, 'update'])->name('reports.update');
     });
 });

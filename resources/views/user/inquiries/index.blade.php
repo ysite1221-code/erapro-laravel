@@ -43,6 +43,17 @@
 
     .back-link { display:inline-block; margin-bottom:20px; font-size:0.85rem; color:#999; }
     .back-link:hover { color:#004e92; }
+
+    .new-badge {
+        display:inline-block; padding:3px 10px; background:#ef4444; color:#fff;
+        border-radius:20px; font-size:0.7rem; font-weight:800;
+        margin-left:8px; vertical-align:middle; letter-spacing:0.04em;
+        animation: pulse-badge 1.4s infinite;
+    }
+    @keyframes pulse-badge {
+        0%, 100% { opacity:1; }
+        50% { opacity:0.6; }
+    }
 </style>
 @endpush
 
@@ -61,12 +72,24 @@
                 ? asset('storage/' . $inq->agent->profile_img)
                 : 'https://picsum.photos/seed/agent' . $inq->agent_id . '/100/100';
         @endphp
-        <a href="{{ route('user.inquiries.show', $inq->id) }}" class="inq-card">
+        @php $hasNewMsg = $inq->latestMessage?->sender_type === 'agent'; @endphp
+        <a href="{{ route('user.inquiries.show', $inq->id) }}"
+           class="inq-card" style="{{ $hasNewMsg ? 'border-color:#fca5a5;' : '' }}">
             <img src="{{ $img }}" class="inq-agent-img" alt="{{ $inq->agent->name ?? '' }}">
             <div class="inq-body">
-                <div class="inq-agent-name">{{ $inq->agent->name ?? '削除済みエージェント' }}</div>
+                <div class="inq-agent-name">
+                    {{ $inq->agent->name ?? '削除済みエージェント' }}
+                    @if ($hasNewMsg)
+                        <span class="new-badge">NEW</span>
+                    @endif
+                </div>
                 <div class="inq-purpose">📋 {{ $inq->purpose }}</div>
-                <div class="inq-meta">送信日: {{ $inq->created_at->format('Y年n月j日') }}</div>
+                <div class="inq-meta">
+                    送信日: {{ $inq->created_at->format('Y年n月j日') }}
+                    @if ($hasNewMsg)
+                        ・ 💬 {{ Str::limit($inq->latestMessage->message, 30) }}
+                    @endif
+                </div>
             </div>
             <span class="status-badge status-{{ $inq->status }}">
                 {{ $statusLabels[$inq->status] ?? '不明' }}

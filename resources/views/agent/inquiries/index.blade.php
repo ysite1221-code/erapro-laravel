@@ -49,6 +49,17 @@
     .empty-state { text-align:center; padding:80px 20px; color:#bbb; }
     .empty-state .empty-icon { font-size:3rem; margin-bottom:16px; display:block; }
 
+    .new-badge {
+        display:inline-block; padding:3px 10px; background:#ef4444; color:#fff;
+        border-radius:20px; font-size:0.7rem; font-weight:800;
+        margin-left:8px; vertical-align:middle; letter-spacing:0.04em;
+        animation: pulse-badge 1.4s infinite;
+    }
+    @keyframes pulse-badge {
+        0%, 100% { opacity:1; }
+        50% { opacity:0.6; }
+    }
+
     .alert-success {
         background:#e8f5e9; border:1px solid #c8e6c9; color:#2e7d32;
         border-radius:6px; padding:12px 16px; font-size:0.88rem; margin-bottom:20px;
@@ -95,14 +106,24 @@
             @if ($filtered->isNotEmpty())
             <div class="inq-list">
                 @foreach ($filtered as $inq)
-                <a href="{{ route('agent.inquiries.show', $inq->id) }}" class="inq-card">
+                @php $hasNewMsg = $inq->latestMessage?->sender_type === 'user'; @endphp
+                <a href="{{ route('agent.inquiries.show', $inq->id) }}"
+                   class="inq-card" style="{{ $hasNewMsg ? 'border-color:#fca5a5;' : '' }}">
                     <div class="inq-user-avatar">👤</div>
                     <div class="inq-card-body">
-                        <div class="inq-user-name">{{ $inq->user->name ?? '退会済みユーザー' }}</div>
+                        <div class="inq-user-name">
+                            {{ $inq->user->name ?? '退会済みユーザー' }}
+                            @if ($hasNewMsg)
+                                <span class="new-badge">NEW</span>
+                            @endif
+                        </div>
                         <div class="inq-purpose">📋 {{ $inq->purpose }}</div>
                         <div class="inq-meta">
                             {{ $inq->updated_at->format('Y年n月j日') }}
                             @if ($inq->trigger) ・ きっかけ: {{ $inq->trigger }} @endif
+                            @if ($hasNewMsg)
+                                ・ 💬 {{ Str::limit($inq->latestMessage->message, 30) }}
+                            @endif
                         </div>
                     </div>
                     <div class="inq-status">

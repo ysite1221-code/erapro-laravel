@@ -108,6 +108,10 @@
            class="{{ request()->routeIs('admin.kyc.*') ? 'active' : '' }}">
             <span class="material-icons-outlined">verified_user</span>KYC審査
         </a>
+        <a href="{{ route('admin.reports.index') }}"
+           class="{{ request()->routeIs('admin.reports.*') ? 'active' : '' }}">
+            <span class="material-icons-outlined">flag</span>通報管理
+        </a>
     </nav>
     <div class="admin-sidebar-footer">
         @auth('admin')

@@ -3,11 +3,16 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Mail\NewInquiryNotification;
+use App\Mail\NewMessageNotification;
 use App\Models\Agent;
 use App\Models\Inquiry;
+use App\Models\InquiryMessage;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
 class InquiryController extends Controller
@@ -25,7 +30,7 @@ class InquiryController extends Controller
         $userId = Auth::guard('user')->id();
 
         $inquiries = Inquiry::where('user_id', $userId)
-            ->with('agent')
+            ->with(['agent', 'latestMessage'])
             ->latest()
             ->get();
 
@@ -39,7 +44,7 @@ class InquiryController extends Controller
     {
         abort_if($inquiry->user_id !== Auth::guard('user')->id(), 403);
 
-        $inquiry->load('agent');
+        $inquiry->load(['agent', 'messages']);
 
         return view('user.inquiries.show', [
             'inquiry'      => $inquiry,
@@ -76,8 +81,9 @@ class InquiryController extends Controller
         ]);
 
         $userId = Auth::guard('user')->id();
+        $user   = Auth::guard('user')->user();
 
-        Inquiry::updateOrCreate(
+        $inquiry = Inquiry::updateOrCreate(
             ['user_id' => $userId, 'agent_id' => $validated['agent_id']],
             [
                 'purpose'         => $validated['purpose'],
@@ -88,8 +94,64 @@ class InquiryController extends Controller
             ]
         );
 
+        // エージェントへメール通知
+        $agent = Agent::find($validated['agent_id']);
+        if ($agent && $agent->email) {
+            try {
+                Mail::to($agent->email)->send(new NewInquiryNotification(
+                    userName:   $user->name,
+                    purpose:    $validated['purpose'],
+                    inquiryUrl: route('agent.inquiries.show', $inquiry->id),
+                ));
+            } catch (\Throwable $e) {
+                \Log::warning('NewInquiryNotification mail failed: ' . $e->getMessage());
+            }
+        }
+
         return redirect()
             ->route('agent.profile', $validated['agent_id'])
             ->with('status', '相談リクエストを送信しました！エージェントからの連絡をお待ちください。');
+    }
+
+    public function storeMessage(Request $request, Inquiry $inquiry): JsonResponse|RedirectResponse
+    {
+        abort_if($inquiry->user_id !== Auth::guard('user')->id(), 403);
+
+        $request->validate(['message' => ['required', 'string', 'max:2000']]);
+
+        $user = Auth::guard('user')->user();
+
+        $msg = InquiryMessage::create([
+            'inquiry_id'  => $inquiry->id,
+            'sender_type' => 'user',
+            'message'     => $request->message,
+        ]);
+
+        // エージェントへメール通知
+        $inquiry->loadMissing('agent');
+        if ($inquiry->agent && $inquiry->agent->email) {
+            try {
+                Mail::to($inquiry->agent->email)->send(new NewMessageNotification(
+                    senderName:      $user->name,
+                    messagePreview:  $request->message,
+                    inquiryUrl:      route('agent.inquiries.show', $inquiry->id),
+                ));
+            } catch (\Throwable $e) {
+                \Log::warning('NewMessageNotification mail failed: ' . $e->getMessage());
+            }
+        }
+
+        if ($request->ajax()) {
+            return response()->json([
+                'id'           => $msg->id,
+                'sender_type'  => $msg->sender_type,
+                'message'      => $msg->message,
+                'created_at'   => $msg->created_at->format('n/j H:i'),
+                'sender_name'  => $user->name,
+            ]);
+        }
+
+        return redirect()->route('user.inquiries.show', $inquiry)
+            ->with('status', 'メッセージを送信しました。');
     }
 }

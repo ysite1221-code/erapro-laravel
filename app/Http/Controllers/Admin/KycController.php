@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\KycResultNotification;
 use App\Models\Agent;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
 class KycController extends Controller
@@ -35,6 +37,19 @@ class KycController extends Controller
         $agent->update(['verification_status' => $newStatus]);
 
         $label = self::STATUS_LABELS[$newStatus];
+
+        // エージェントへメール通知
+        if ($agent->email) {
+            try {
+                Mail::to($agent->email)->send(new KycResultNotification(
+                    agentName:    $agent->name,
+                    status:       $newStatus,
+                    dashboardUrl: route('agent.dashboard'),
+                ));
+            } catch (\Throwable $e) {
+                \Log::warning('KycResultNotification mail failed: ' . $e->getMessage());
+            }
+        }
 
         return redirect()
             ->route('admin.kyc.show', $agent)

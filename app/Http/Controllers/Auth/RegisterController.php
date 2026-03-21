@@ -48,9 +48,11 @@ class RegisterController extends Controller
 
     /**
      * メールの認証リンクを処理する（独自トークン方式）
-     * SendGrid等のクリックトラッキングで署名URLが壊れる問題を回避
+     * 旧PHP verify.php User側と同じ挙動:
+     *   認証後に「本登録完了」画面を表示し、ユーザーが手動でログインする
+     *   ※ 自動ログインはしない（旧版準拠）
      */
-    public function verifyUserEmail(string $token): RedirectResponse
+    public function verifyUserEmail(string $token): View|RedirectResponse
     {
         $user = User::where('email_token', $token)->first();
 
@@ -65,11 +67,8 @@ class RegisterController extends Controller
         // 使用済みトークンを無効化
         $user->update(['email_token' => null]);
 
-        Auth::guard('user')->login($user);
-        request()->session()->regenerate();
-
-        return redirect()->route('user.dashboard')
-            ->with('status', 'メールアドレスの認証が完了しました！');
+        // 旧PHP verify.php:64-68 相当: 完了画面を表示（自動ログインなし）
+        return view('auth.user_verified', ['userName' => $user->name]);
     }
 
     public function resendUserVerification(Request $request): RedirectResponse

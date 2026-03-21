@@ -4,12 +4,10 @@
 
 @push('styles')
 <style>
-    /* Agent LP ヘッダー上書き: 黒基調・Hero と境界レスに接続 */
-    header {
-        background: #111 !important;
-        border-bottom: none !important;
-        box-shadow: none !important;
-    }
+    /* Agent LP: ヘッダー・ヒーロー完全シームレス化 */
+    body   { background: #0d0d0d !important; } /* body の #f5f5f5 が隙間から見えないよう */
+    header { background: #0d0d0d !important; border-bottom: none !important; box-shadow: none !important; }
+    main   { padding-top: 0 !important; margin-top: 0 !important; }
 
     /* ヒーロー */
     .lp-hero { background:linear-gradient(135deg,#0d0d0d,#2a2a2a); color:#fff; text-align:center; padding:100px 24px 90px; }

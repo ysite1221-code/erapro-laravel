@@ -47,12 +47,12 @@ a { text-decoration: none; color: inherit; transition: color 0.2s; }
 }
 .agent-header-user {
     font-size: 0.82rem;
-    color: #888;
+    color: rgba(255,255,255,0.65);
     font-weight: 500;
 }
 .agent-header-logout {
     font-size: 0.82rem;
-    color: #666;
+    color: rgba(255,255,255,0.5);
     font-weight: 500;
     transition: color 0.2s;
 }

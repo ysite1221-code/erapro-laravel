@@ -2,14 +2,28 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Mail;
 
-class Agent extends Authenticatable
+class Agent extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
+
+    public function sendPasswordResetNotification($token): void
+    {
+        $url = route('agent.password.reset', ['token' => $token, 'email' => $this->email]);
+        Mail::raw(
+            "ERAPROパスワードリセットのご案内\n\n"
+            . "以下のリンクからパスワードをリセットしてください（有効期限: 60分）。\n\n"
+            . "{$url}\n\n"
+            . "※ 心当たりのない場合は無視してください。",
+            fn($m) => $m->to($this->email)->subject('【ERAPRO募集人】パスワードリセット')
+        );
+    }
 
     protected $fillable = [
         'name',

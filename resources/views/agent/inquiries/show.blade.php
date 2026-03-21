@@ -65,26 +65,8 @@
 
 @section('content')
 <div class="dashboard">
-    <aside class="sidebar">
-        @php $agent = Auth::guard('agent')->user(); @endphp
-        <img src="{{ $agent->profile_img ? asset('storage/' . $agent->profile_img) : 'https://placehold.co/150x150/e0e0e0/888?text=No+Img' }}"
-             class="sidebar-avatar" alt="プロフィール">
-        <ul>
-            <li><a href="{{ route('agent.dashboard') }}" class="sidebar-link">
-                <span class="material-icons-outlined sidebar-icon">dashboard</span>ダッシュボード
-            </a></li>
-            <li><a href="{{ route('agent.profile.edit') }}" class="sidebar-link">
-                <span class="material-icons-outlined sidebar-icon">person</span>プロフィール編集
-            </a></li>
-            <li><a href="{{ route('agent.inquiries.index') }}" class="sidebar-link active">
-                <span class="material-icons-outlined sidebar-icon">chat</span>問い合わせ管理
-            </a></li>
-            <li><a href="{{ route('agent.customers.index') }}" class="sidebar-link">
-                <span class="material-icons-outlined sidebar-icon">people</span>顧客リスト
-            </a></li>
-        </ul>
-        <a href="{{ route('agent.profile', $agent->id) }}" target="_blank" class="sidebar-public-btn">自分の公開ページを見る</a>
-    </aside>
+    @php $agent = Auth::guard('agent')->user(); @endphp
+    <x-agent-sidebar :agent="$agent" active="inquiries" />
 
     <main class="main-content">
         <div class="inq-wrap" style="padding-left:0;padding-right:0;">
@@ -137,20 +119,43 @@
                 @endif
             </div>
 
+            {{-- 完了メモ表示（既存） --}}
+            @if ($inquiry->completion_note)
+            <div class="detail-card" style="border-left:4px solid #2e7d32;">
+                <div class="detail-row">
+                    <div class="detail-label" style="color:#2e7d32;">✅ 成約メモ</div>
+                    <div class="detail-value" style="white-space:pre-wrap;">{{ $inquiry->completion_note }}</div>
+                </div>
+            </div>
+            @endif
+
             {{-- ステータス変更 --}}
             <div class="status-card">
                 <h3>ステータスを更新する</h3>
-                <form action="{{ route('agent.inquiries.update_status', $inquiry->id) }}" method="POST">
+                <form action="{{ route('agent.inquiries.update_status', $inquiry->id) }}" method="POST" id="status-form">
                     @csrf
                     @method('PATCH')
-                    <select name="status" class="status-select">
+                    <select name="status" class="status-select" id="status-select"
+                            onchange="toggleCompletionNote(this.value)">
                         @foreach ($statusLabels as $val => $label)
                         <option value="{{ $val }}" {{ $inquiry->status === $val ? 'selected' : '' }}>
                             {{ $label }}
                         </option>
                         @endforeach
                     </select>
-                    <button type="submit" class="btn-update">ステータスを更新する</button>
+
+                    {{-- 完了時の成約メモ入力欄 --}}
+                    <div id="completion-note-wrap" style="margin-top:16px; display:{{ $inquiry->status === 4 ? 'block' : 'none' }};">
+                        <label style="display:block;font-size:0.84rem;font-weight:600;color:#374151;margin-bottom:6px;">
+                            成約メモ（任意）
+                        </label>
+                        <textarea name="completion_note" rows="4"
+                                  style="width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:0.9rem;resize:vertical;"
+                                  placeholder="成約内容・提案商品・次のアクションなどを記録してください">{{ old('completion_note', $inquiry->completion_note) }}</textarea>
+                        <p style="font-size:0.78rem;color:#9ca3af;margin-top:4px;">※ステータスを「完了」に設定した際のみ保存されます</p>
+                    </div>
+
+                    <button type="submit" class="btn-update" style="margin-top:16px;">ステータスを更新する</button>
                 </form>
             </div>
 
@@ -158,3 +163,11 @@
     </main>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+function toggleCompletionNote(val) {
+    document.getElementById('completion-note-wrap').style.display = (val === '4') ? 'block' : 'none';
+}
+</script>
+@endpush

@@ -58,26 +58,8 @@
 
 @section('content')
 <div class="dashboard">
-    <aside class="sidebar">
-        @php $agent = Auth::guard('agent')->user(); @endphp
-        <img src="{{ $agent->profile_img ? asset('storage/' . $agent->profile_img) : 'https://placehold.co/150x150/e0e0e0/888?text=No+Img' }}"
-             class="sidebar-avatar" alt="プロフィール">
-        <ul>
-            <li><a href="{{ route('agent.dashboard') }}" class="sidebar-link">
-                <span class="material-icons-outlined sidebar-icon">dashboard</span>ダッシュボード
-            </a></li>
-            <li><a href="{{ route('agent.profile.edit') }}" class="sidebar-link">
-                <span class="material-icons-outlined sidebar-icon">person</span>プロフィール編集
-            </a></li>
-            <li><a href="{{ route('agent.inquiries.index') }}" class="sidebar-link active">
-                <span class="material-icons-outlined sidebar-icon">chat</span>問い合わせ管理
-            </a></li>
-            <li><a href="{{ route('agent.customers.index') }}" class="sidebar-link">
-                <span class="material-icons-outlined sidebar-icon">people</span>顧客リスト
-            </a></li>
-        </ul>
-        <a href="{{ route('agent.profile', $agent->id) }}" target="_blank" class="sidebar-public-btn">自分の公開ページを見る</a>
-    </aside>
+    @php $agent = Auth::guard('agent')->user(); @endphp
+    <x-agent-sidebar :agent="$agent" active="inquiries" />
 
     <main class="main-content">
         <div class="inq-wrap" style="padding-left:0;padding-right:0;">

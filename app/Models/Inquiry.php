@@ -15,6 +15,7 @@ class Inquiry extends Model
         'trigger',
         'preferred_style',
         'note',
+        'completion_note',
     ];
 
     public function user(): BelongsTo

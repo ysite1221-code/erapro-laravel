@@ -51,10 +51,17 @@ class InquiryController extends Controller
         abort_if($inquiry->agent_id !== Auth::guard('agent')->id(), 403);
 
         $request->validate([
-            'status' => ['required', 'integer', 'in:1,2,3,4,5'],
+            'status'          => ['required', 'integer', 'in:1,2,3,4,5'],
+            'completion_note' => ['nullable', 'string', 'max:2000'],
         ]);
 
-        $inquiry->update(['status' => $request->integer('status')]);
+        $updateData = ['status' => $request->integer('status')];
+
+        if ($request->integer('status') === 4) {
+            $updateData['completion_note'] = $request->input('completion_note');
+        }
+
+        $inquiry->update($updateData);
 
         return redirect()
             ->route('agent.inquiries.show', $inquiry)

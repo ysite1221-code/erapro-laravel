@@ -504,14 +504,46 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     });
 });
 
-// お気に入り削除（TODO: APIルート実装後に有効化）
+// お気に入り削除
 function removeFavorite(agentId, cardId) {
     if (!confirm('お気に入りから削除しますか？')) return;
-    // fetch('/api/favorites', { method:'DELETE', ... })
+    fetch('{{ route('favorite.toggle') }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: 'agent_id=' + agentId + '&action=favorite'
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.result === 'removed') {
+            const card = document.getElementById(cardId);
+            if (card) { card.style.transition = 'opacity .3s'; card.style.opacity = '0'; setTimeout(() => card.remove(), 300); }
+        }
+    })
+    .catch(() => alert('エラーが発生しました。'));
 }
+
+// My Agent解除
 function removeMyAgent(agentId, cardId) {
     if (!confirm('My Agentの登録を解除しますか？')) return;
-    // fetch('/api/my-agents', { method:'DELETE', ... })
+    fetch('{{ route('favorite.toggle') }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: 'agent_id=' + agentId + '&action=my_agent'
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.result === 'removed') {
+            const card = document.getElementById(cardId);
+            if (card) { card.style.transition = 'opacity .3s'; card.style.opacity = '0'; setTimeout(() => card.remove(), 300); }
+        }
+    })
+    .catch(() => alert('エラーが発生しました。'));
 }
 </script>
 @endpush

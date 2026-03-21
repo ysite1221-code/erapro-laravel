@@ -4,6 +4,8 @@ use App\Http\Controllers\Admin\AgentController as AdminAgentController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\KycController as AdminKycController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Agent\ActivityReportController as AgentActivityReportController;
+use App\Http\Controllers\Agent\CustomerController as AgentCustomerController;
 use App\Http\Controllers\Agent\DashboardController as AgentDashboardController;
 use App\Http\Controllers\Agent\InquiryController as AgentInquiryController;
 use App\Http\Controllers\Agent\ProfileController as AgentProfileController;
@@ -18,7 +20,6 @@ use App\Http\Controllers\User\FavoriteController;
 use App\Http\Controllers\User\InquiryController;
 use App\Http\Controllers\User\ReportController;
 use App\Http\Controllers\User\ReviewController;
-use App\Http\Controllers\Agent\CustomerController as AgentCustomerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -120,6 +121,7 @@ Route::prefix('agent')->name('agent.')->group(function () {
         Route::get('/inquiries/{inquiry}',         [AgentInquiryController::class, 'show'])->name('inquiries.show');
         Route::patch('/inquiries/{inquiry}/status',[AgentInquiryController::class, 'updateStatus'])->name('inquiries.update_status');
         Route::get('/customers', [AgentCustomerController::class, 'index'])->name('customers.index');
+        Route::get('/report',    [AgentActivityReportController::class, 'index'])->name('report');
     });
 });
 

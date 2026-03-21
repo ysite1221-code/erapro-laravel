@@ -161,8 +161,8 @@
                     {{ $favStatus === 2 ? '⭐ My Agent' : '☆ My Agentに登録' }}
                 </button>
             @else
-                <a href="#" class="btn-consult" style="opacity:0.5;cursor:not-allowed;">💬 この人に相談する</a>
-                <a href="#" class="btn-fav btn-fav-heart" style="opacity:0.5;cursor:not-allowed;">♡ お気に入り</a>
+                <a href="{{ route('login') }}" class="btn-consult">💬 ログインして相談する</a>
+                <a href="{{ route('login') }}" class="btn-fav btn-fav-heart">♡ お気に入り</a>
             @endif
         </div>
 

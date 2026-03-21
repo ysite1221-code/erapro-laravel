@@ -145,7 +145,12 @@
         {{-- アクションボタン --}}
         <div class="action-area">
             @if ($authUser)
+                {{-- 旧PHP profile.php $has_thread 相当: 既存相談があれば続きへ、なければ新規フォーム --}}
+                @if ($existingInquiry)
+                <a href="{{ route('user.inquiries.show', $existingInquiry) }}" class="btn-consult">💬 相談の続きを見る</a>
+                @else
                 <a href="{{ route('inquiry.create', $agent->id) }}" class="btn-consult">💬 この人に相談する</a>
+                @endif
                 <button
                     class="btn-fav btn-fav-heart {{ $favStatus === 1 ? 'active' : '' }}"
                     id="btnFav"

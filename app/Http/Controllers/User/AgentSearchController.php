@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Agent;
 use App\Models\Favorite;
+use App\Models\Inquiry;
 use App\Models\ProfileView;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -129,6 +130,9 @@ class AgentSearchController extends Controller
         /** @var \App\Models\User|null $authUser */
         $authUser = Auth::guard('user')->user();
 
+        // 既存の相談があるかチェック（旧PHP profile.php の $has_thread 相当）
+        $existingInquiry = null;
+
         if ($authUser) {
             $fav = Favorite::where('user_id', $authUser->id)
                 ->where('agent_id', $agent->id)
@@ -138,6 +142,11 @@ class AgentSearchController extends Controller
             $userReviewed = $agent->reviews()
                 ->where('user_id', $authUser->id)
                 ->exists();
+
+            $existingInquiry = Inquiry::where('user_id', $authUser->id)
+                ->where('agent_id', $agent->id)
+                ->latest()
+                ->first();
         }
 
         $reviewPosted = $request->query('review') === '1';
@@ -150,7 +159,7 @@ class AgentSearchController extends Controller
         return view('user.profile', compact(
             'agent', 'reviews', 'reviewCount', 'avgRating',
             'favStatus', 'userReviewed', 'reviewPosted',
-            'tags', 'areaDisplay', 'authUser'
+            'tags', 'areaDisplay', 'authUser', 'existingInquiry'
         ));
     }
 }

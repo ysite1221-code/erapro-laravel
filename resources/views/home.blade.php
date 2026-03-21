@@ -174,12 +174,4 @@
         </div>
     </div>
 
-    <!-- フッター -->
-    <footer>
-        <div class="footer-inner">
-            <p>&copy; 2026 ERAPRO</p>
-            <a href="{{ route('agent.lp') }}">保険募集人の掲載登録について</a>
-        </div>
-    </footer>
-
 @endsection

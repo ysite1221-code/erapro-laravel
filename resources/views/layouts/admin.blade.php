@@ -144,46 +144,8 @@
     <div style="flex:1; padding:28px 32px 60px;">
         @yield('content')
     </div>
-    <style>
-        .admin-footer-custom {
-            width: 100%;
-            padding: 20px;
-            background-color: #f8f9fa;
-            border-top: 1px solid #e5e7eb;
-            margin-top: auto;
-        }
-        .admin-footer-links {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 32px;
-            margin-bottom: 12px;
-        }
-        .admin-footer-links a {
-            color: #4b5563;
-            text-decoration: none;
-            font-size: 14px;
-            white-space: nowrap;
-        }
-        .admin-footer-links a:hover {
-            color: #111827;
-            text-decoration: underline;
-        }
-        .admin-footer-copy {
-            text-align: center;
-            color: #9ca3af;
-            font-size: 12px;
-        }
-    </style>
-    <footer class="admin-footer-custom">
-        <div class="admin-footer-links">
-            <a href="{{ route('terms') }}">利用規約</a>
-            <a href="{{ route('privacy') }}">プライバシーポリシー</a>
-            <a href="{{ route('agent.lp') }}">保険募集人の掲載登録について</a>
-        </div>
-        <div class="admin-footer-copy">
-            &copy; {{ date('Y') }} ERAPRO.
-        </div>
+    <footer style="width:100%;text-align:center;padding:24px 0;font-size:13px;color:#666;background:transparent;border-top:1px solid #eaeaea;margin-top:auto;">
+        &copy; {{ date('Y') }} ERAPRO.&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ route('terms') }}" style="color:#666;text-decoration:none;">利用規約</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ route('privacy') }}" style="color:#666;text-decoration:none;">プライバシーポリシー</a>
     </footer>
 </div>
 

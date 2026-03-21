@@ -170,13 +170,4 @@
     </div>
 </div>
 
-<footer>
-    <div class="footer-inner">
-        <p>&copy; 2026 ERAPRO</p>
-        <a href="{{ route('terms') }}">利用規約</a>
-        <span style="margin:0 8px;color:#ddd;">|</span>
-        <a href="{{ route('privacy') }}">プライバシーポリシー</a>
-    </div>
-</footer>
-
 @endsection

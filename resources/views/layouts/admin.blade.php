@@ -164,23 +164,25 @@
     </div>
 </aside>
 
-<div class="admin-main">
+<div class="admin-main" style="display:flex; flex-direction:column; flex:1; min-width:0; min-height:100vh;">
     <div class="admin-topbar">
         <div class="admin-topbar-title">@yield('page-title', 'Admin Panel')</div>
         <div class="admin-topbar-admin">
             @auth('admin')管理者: {{ Auth::guard('admin')->user()->name }}@endauth
         </div>
     </div>
-    <div class="admin-content">
+    <div style="flex:1; padding:28px 32px 60px;">
         @yield('content')
     </div>
-    <footer class="admin-footer">
-        <div class="footer-links">
-            <a href="{{ route('terms') }}">利用規約</a>
-            <a href="{{ route('privacy') }}">プライバシーポリシー</a>
-            <a href="{{ route('agent.lp') }}">保険募集人の掲載登録について</a>
+    <footer style="width:100%; padding:24px 0; margin-top:auto; border-top:1px solid #eaeaea; background:transparent;">
+        <div style="display:flex; justify-content:center; align-items:center; gap:32px; flex-wrap:nowrap;">
+            <a href="{{ route('terms') }}"   style="white-space:nowrap; color:#555; text-decoration:none; font-size:14px;">利用規約</a>
+            <a href="{{ route('privacy') }}" style="white-space:nowrap; color:#555; text-decoration:none; font-size:14px;">プライバシーポリシー</a>
+            <a href="{{ route('agent.lp') }}" style="white-space:nowrap; color:#555; text-decoration:none; font-size:14px;">保険募集人の掲載登録について</a>
         </div>
-        <div class="copyright">&copy; {{ date('Y') }} ERAPRO.</div>
+        <div style="text-align:center; margin-top:12px; font-size:12px; color:#999;">
+            &copy; {{ date('Y') }} ERAPRO.
+        </div>
     </footer>
 </div>
 

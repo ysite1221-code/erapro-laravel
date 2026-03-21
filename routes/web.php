@@ -56,8 +56,7 @@ Route::get('/verify-notice', fn() => view('auth.verify_notice', [
     'resendRoute' => route('user.verify.resend'),
     'loginRoute'  => route('login'),
 ]))->name('user.verify.notice');
-Route::get('/email/verify/{id}/{hash}', [RegisterController::class, 'verifyUserEmail'])
-    ->middleware('signed')
+Route::get('/email/verify/{token}', [RegisterController::class, 'verifyUserEmail'])
     ->name('user.email.verify');
 Route::post('/email/verify/resend', [RegisterController::class, 'resendUserVerification'])->name('user.verify.resend');
 
@@ -99,8 +98,7 @@ Route::prefix('agent')->name('agent.')->group(function () {
         'resendRoute' => route('agent.verify.resend'),
         'loginRoute'  => route('agent.login'),
     ]))->name('verify.notice');
-    Route::get('/email/verify/{id}/{hash}', [RegisterController::class, 'verifyAgentEmail'])
-        ->middleware('signed')
+    Route::get('/email/verify/{token}', [RegisterController::class, 'verifyAgentEmail'])
         ->name('email.verify');
     Route::post('/email/verify/resend', [RegisterController::class, 'resendAgentVerification'])->name('verify.resend');
 

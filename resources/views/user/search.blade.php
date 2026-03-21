@@ -102,7 +102,7 @@
                 @endif
             </div>
         </div>
-        <a href="#" class="diag-retry-link">再診断する →</a>
+        <a href="{{ route('diagnosis') }}" class="diag-retry-link">再診断する →</a>
     </div>
     @endif
 

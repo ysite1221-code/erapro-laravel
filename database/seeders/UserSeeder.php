@@ -27,6 +27,15 @@ class UserSeeder extends Seeder
                 'diagnosis_score'    => 80,
                 'email_verified_at'  => now(),
             ],
+            // ① メール未認証テスト用
+            [
+                'name'               => '未認証テストユーザー',
+                'email'              => 'user_unverified@example.com',
+                'password'           => Hash::make('1111'),
+                'diagnosis_type'     => null,
+                'diagnosis_score'    => null,
+                'email_verified_at'  => null,
+            ],
         ];
 
         foreach ($users as $data) {

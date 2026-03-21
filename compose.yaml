@@ -67,6 +67,19 @@ services:
                 - ping
             retries: 3
             timeout: 5s
+    phpmyadmin:
+        image: 'phpmyadmin:latest'
+        ports:
+            - '8080:80'
+        networks:
+            - sail
+        environment:
+            - PMA_ARBITRARY=1
+            - PMA_HOST=mysql
+            - PMA_USER=${DB_USERNAME}
+            - PMA_PASSWORD=${DB_PASSWORD}
+        depends_on:
+            - mysql
     meilisearch:
         image: 'getmeili/meilisearch:latest'
         ports:

@@ -48,6 +48,7 @@ class Agent extends Authenticatable implements MustVerifyEmail
         'subscription_status',
         'email_notification_flg',
         'life_flg',
+        'suspension_reason',
     ];
 
     protected $hidden = [

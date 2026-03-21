@@ -75,12 +75,15 @@ class LoginController extends Controller
 
         $agent = $guard->user();
 
-        // 退会済みチェック
+        // 停止・退会チェック
         if ($agent->life_flg == 1) {
             $guard->logout();
+            $msg = $agent->suspension_reason
+                ? "現在アカウントが停止されています。理由：{$agent->suspension_reason}"
+                : 'このアカウントは退会済みです。';
             return back()
                 ->withInput($request->only('email'))
-                ->withErrors(['email' => 'このアカウントは退会済みです。']);
+                ->withErrors(['email' => $msg]);
         }
 
         $request->session()->regenerate();

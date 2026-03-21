@@ -83,6 +83,15 @@
         cursor: pointer; font-family: inherit; transition: background 0.18s;
     }
     .btn-unban:hover { background: #4b5563; }
+
+    .agent-status-suspended {
+        background: #fef2f2; color: #dc2626; border: 1px solid #fecaca;
+        padding: 2px 8px; border-radius: 10px; font-size: 0.72rem; font-weight: 700;
+    }
+    .agent-status-active {
+        background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0;
+        padding: 2px 8px; border-radius: 10px; font-size: 0.72rem; font-weight: 700;
+    }
 </style>
 @endpush
 
@@ -103,9 +112,9 @@
             <div class="detail-title">通報者タイプ</div>
             <div class="detail-value">
                 @if ($report->reporter_type === 'agent')
-                <span class="reporter-badge rtype-agent">エージェント → ユーザー</span>
+                    <span class="reporter-badge rtype-agent">エージェント → ユーザー</span>
                 @else
-                <span class="reporter-badge rtype-user">ユーザー → エージェント</span>
+                    <span class="reporter-badge rtype-user">ユーザー → エージェント</span>
                 @endif
             </div>
 
@@ -166,31 +175,56 @@
 
     {{-- エージェントBAN（通報対象がエージェントの場合のみ） --}}
     @if ($report->reporter_type === 'user' && $report->agent)
-    <div class="ban-card" style="margin-top:20px;">
+    <div class="ban-card">
         <h3>⚠️ エージェントアカウント操作</h3>
         <p>
             対象エージェント: <strong>{{ $report->agent->name }}</strong>
             &nbsp;
             @if ($report->agent->life_flg)
-            <span style="background:#fef2f2;color:#dc2626;border:1px solid #fecaca;
-                         padding:2px 8px;border-radius:10px;font-size:0.72rem;font-weight:700;">停止中</span>
+                <span class="agent-status-suspended">停止中</span>
+                @if ($report->agent->suspension_reason)
+                &nbsp;理由：{{ $report->agent->suspension_reason }}
+                @endif
             @else
-            <span style="background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;
-                         padding:2px 8px;border-radius:10px;font-size:0.72rem;font-weight:700;">有効</span>
+                <span class="agent-status-active">有効</span>
             @endif
         </p>
-        <form method="POST"
-              action="{{ route('admin.reports.ban_agent', $report) }}"
-              onsubmit="return confirm('{{ $report->agent->life_flg ? 'アカウントを有効化しますか？' : 'このエージェントのアカウントを停止しますか？' }}')">
+
+        @if ($report->agent->life_flg)
+        {{-- 有効化フォーム --}}
+        <form method="POST" action="{{ route('admin.reports.ban_agent', $report) }}"
+              onsubmit="return confirm('{{ $report->agent->name }} のアカウントを有効化しますか？')">
             @csrf
-            @if ($report->agent->life_flg)
             <button type="submit" class="btn-unban">有効化する</button>
-            @else
-            <button type="submit" class="btn-ban">アカウントを停止する</button>
-            @endif
         </form>
+        @else
+        {{-- 停止フォーム（停止理由を prompt で収集） --}}
+        <form method="POST" action="{{ route('admin.reports.ban_agent', $report) }}"
+              id="ban-form">
+            @csrf
+            <input type="hidden" name="suspension_reason" id="ban-reason-input">
+            <button type="button" class="btn-ban" onclick="confirmBan()">
+                アカウントを停止する
+            </button>
+        </form>
+        @endif
     </div>
     @endif
 </div>
 
 @endsection
+
+@push('scripts')
+<script>
+function confirmBan() {
+    var agentName = @json($report->agent->name ?? '');
+    var reason = window.prompt(
+        agentName + ' のアカウントを停止します。\n停止理由を入力してください（ユーザーへの表示に使用されます）：',
+        ''
+    );
+    if (reason === null) return; // キャンセル
+    document.getElementById('ban-reason-input').value = reason;
+    document.getElementById('ban-form').submit();
+}
+</script>
+@endpush

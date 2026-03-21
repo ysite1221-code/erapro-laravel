@@ -71,13 +71,26 @@ class ReportController extends Controller
             ->with('status', '対応ステータスを更新しました。');
     }
 
-    public function banAgent(Report $report): RedirectResponse
+    public function banAgent(Request $request, Report $report): RedirectResponse
     {
         $agent = Agent::findOrFail($report->agent_id);
-        $agent->update(['life_flg' => 1]);
+
+        if ($agent->life_flg) {
+            // 現在停止中 → 有効化
+            $agent->update(['life_flg' => 0, 'suspension_reason' => null]);
+            $msg = "{$agent->name} のアカウントを有効化しました。";
+        } else {
+            // 現在有効 → 停止
+            $reason = $request->input('suspension_reason', '');
+            $agent->update([
+                'life_flg'          => 1,
+                'suspension_reason' => $reason ?: null,
+            ]);
+            $msg = "{$agent->name} のアカウントを停止しました。";
+        }
 
         return redirect()
             ->route('admin.reports.show', $report)
-            ->with('status', "{$agent->name} のアカウントを停止しました。");
+            ->with('status', $msg);
     }
 }

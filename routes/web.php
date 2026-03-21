@@ -23,6 +23,7 @@ use App\Http\Controllers\User\FavoriteController;
 use App\Http\Controllers\User\InquiryController;
 use App\Http\Controllers\User\ReportController;
 use App\Http\Controllers\User\ReviewController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -115,7 +116,14 @@ Route::prefix('agent')->name('agent.')->group(function () {
     Route::post('/reset-password',        [PasswordResetController::class, 'resetAgentPassword'])->name('password.update');
 
     // Agent 認証必須
-    Route::middleware('auth:agent')->group(function () {
+    Route::middleware(['auth:agent'])->group(function () {
+        // 停止通知ページ（agent.active より先に定義）
+        Route::get('/suspended', fn() => view('agent.suspended', [
+            'agent' => Auth::guard('agent')->user(),
+        ]))->name('suspended');
+    });
+
+    Route::middleware(['auth:agent', 'agent.active'])->group(function () {
         Route::get('/dashboard', [AgentDashboardController::class, 'index'])->name('dashboard');
         Route::post('/withdraw', [AgentDashboardController::class, 'withdraw'])->name('withdraw');
         Route::get('/profile/edit',    [AgentProfileController::class, 'edit'])->name('profile.edit');

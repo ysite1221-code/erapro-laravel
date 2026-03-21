@@ -39,16 +39,25 @@ class AgentController extends Controller
         ]);
     }
 
-    public function toggleStatus(Agent $agent): RedirectResponse
+    public function toggleStatus(Request $request, Agent $agent): RedirectResponse
     {
-        $agent->update(['life_flg' => $agent->life_flg ? 0 : 1]);
+        $isSuspending = ! $agent->life_flg; // 現在有効 → これから停止
 
-        $msg = $agent->life_flg
-            ? "{$agent->name} のアカウントを停止しました。"
-            : "{$agent->name} のアカウントを有効化しました。";
+        if ($isSuspending) {
+            $reason = $request->input('suspension_reason', '');
+            $agent->update([
+                'life_flg'          => 1,
+                'suspension_reason' => $reason ?: null,
+            ]);
+            $msg = "{$agent->name} のアカウントを停止しました。";
+        } else {
+            $agent->update([
+                'life_flg'          => 0,
+                'suspension_reason' => null,
+            ]);
+            $msg = "{$agent->name} のアカウントを有効化しました。";
+        }
 
-        return redirect()
-            ->route('admin.agents.index')
-            ->with('status', $msg);
+        return redirect()->back()->with('status', $msg);
     }
 }

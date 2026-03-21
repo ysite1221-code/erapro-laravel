@@ -96,6 +96,16 @@ class AgentSearchController extends Controller
 
     public function show(Request $request, int $id): View|RedirectResponse
     {
+        // 管理者による停止（life_flg=1 かつ suspension_reason あり）→ 専用ページ
+        $suspended = Agent::where('id', $id)
+            ->where('life_flg', 1)
+            ->whereNotNull('suspension_reason')
+            ->first();
+
+        if ($suspended) {
+            return view('user.agent_suspended', ['agent' => $suspended]);
+        }
+
         $agent = Agent::where('life_flg', 0)
             ->where('verification_status', 2)
             ->find($id);

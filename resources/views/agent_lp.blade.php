@@ -4,6 +4,13 @@
 
 @push('styles')
 <style>
+    /* Agent LP ヘッダー上書き: 黒基調・Hero と境界レスに接続 */
+    header {
+        background: #111 !important;
+        border-bottom: none !important;
+        box-shadow: none !important;
+    }
+
     /* ヒーロー */
     .lp-hero { background:linear-gradient(135deg,#0d0d0d,#2a2a2a); color:#fff; text-align:center; padding:100px 24px 90px; }
     .lp-hero .sub { font-size:0.85rem; letter-spacing:0.2em; opacity:0.65; margin-bottom:20px; font-weight:600; }

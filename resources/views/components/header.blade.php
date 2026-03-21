@@ -3,11 +3,16 @@
         @if (request()->routeIs('agent.lp'))
             {{-- Agent LP 専用ヘッダー --}}
             <a href="{{ route('agent.lp') }}" class="logo">
-                <img src="{{ asset('img/logo_blue.png') }}" alt="ERAPRO">
+                <img src="{{ asset('img/logo_white.png') }}" alt="ERAPRO for Agent"
+                     style="height:28px;max-width:140px;object-fit:contain;">
             </a>
-            <nav class="header-nav">
-                <a href="{{ url('/') }}" class="header-nav-link">一般の方はこちら</a>
-                <a href="{{ route('agent.login') }}" class="btn-login">ログイン</a>
+            <nav class="header-nav" style="display:flex;align-items:center;gap:20px;">
+                <a href="{{ url('/') }}"
+                   style="color:rgba(255,255,255,0.72);text-decoration:none;font-size:0.855rem;letter-spacing:0.02em;transition:color 0.2s;"
+                   onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.72)'">一般の方はこちら</a>
+                <a href="{{ route('agent.login') }}"
+                   style="display:inline-block;padding:8px 22px;background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.45);border-radius:5px;font-size:0.855rem;font-weight:600;text-decoration:none;letter-spacing:0.03em;transition:all 0.2s;"
+                   onmouseover="this.style.background='rgba(255,255,255,0.12)';this.style.borderColor='rgba(255,255,255,0.8)'" onmouseout="this.style.background='transparent';this.style.borderColor='rgba(255,255,255,0.45)'">ログイン</a>
             </nav>
         @else
             {{-- 通常ヘッダー --}}

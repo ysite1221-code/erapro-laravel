@@ -144,9 +144,13 @@
     <div class="admin-content">
         @yield('content')
     </div>
-    <footer style="text-align:center;padding:16px;font-size:0.75rem;color:#9ca3af;border-top:1px solid #e8eaf0;margin-top:24px;">
-        <a href="{{ route('terms') }}" style="color:#6b7280;text-decoration:none;margin:0 10px;">利用規約</a>
-        <a href="{{ route('privacy') }}" style="color:#6b7280;text-decoration:none;margin:0 10px;">プライバシーポリシー</a>
+    <footer class="admin-footer">
+        <div class="footer-links">
+            <a href="{{ route('terms') }}">利用規約</a>
+            <a href="{{ route('privacy') }}">プライバシーポリシー</a>
+            <a href="{{ route('agent.lp') }}">保険募集人の掲載登録について</a>
+        </div>
+        <div class="copyright">&copy; {{ date('Y') }} ERAPRO.</div>
     </footer>
 </div>
 

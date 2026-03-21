@@ -549,3 +549,34 @@ a { text-decoration: none; color: inherit; transition: color 0.2s; }
     background: #003a70;
     box-shadow: 0 4px 16px rgba(0,78,146,0.2);
 }
+
+/* ===== 管理画面フッター ===== */
+.admin-footer {
+    padding: 20px 32px 24px;
+    border-top: 1px solid #e8eaf0;
+    background: #fff;
+    margin-top: 40px;
+}
+.footer-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+}
+.footer-links a {
+    font-size: 0.78rem;
+    color: #6b7280;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.18s;
+}
+.footer-links a:hover {
+    color: #1a1f36;
+}
+.copyright {
+    text-align: center;
+    margin-top: 12px;
+    font-size: 0.72rem;
+    color: #9ca3af;
+}

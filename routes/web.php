@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController as AdminAdminController;
+use App\Http\Controllers\Admin\AdminManagementController;
 use App\Http\Controllers\Admin\AgentController as AdminAgentController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\KycController as AdminKycController;
@@ -162,7 +163,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/reports/{report}',             [AdminReportController::class, 'show'])->name('reports.show');
         Route::patch('/reports/{report}',           [AdminReportController::class, 'update'])->name('reports.update');
         Route::post('/reports/{report}/ban-agent',  [AdminReportController::class, 'banAgent'])->name('reports.ban_agent');
-        Route::get('/admins/create',  [AdminAdminController::class, 'create'])->name('admins.create');
-        Route::post('/admins',        [AdminAdminController::class, 'store'])->name('admins.store');
+        Route::get('/admins',         [AdminManagementController::class, 'index'])->name('admins.index');
+        Route::get('/admins/create',  [AdminManagementController::class, 'create'])->name('admins.create');
+        Route::post('/admins',        [AdminManagementController::class, 'store'])->name('admins.store');
     });
 });

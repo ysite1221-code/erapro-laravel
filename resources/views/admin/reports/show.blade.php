@@ -193,9 +193,9 @@
         @if ($report->agent->life_flg)
         {{-- 有効化フォーム --}}
         <form method="POST" action="{{ route('admin.reports.ban_agent', $report) }}"
-              onsubmit="return confirm('{{ $report->agent->name }} のアカウントを有効化しますか？')">
+              id="unban-form">
             @csrf
-            <button type="submit" class="btn-unban">有効化する</button>
+            <button type="button" class="btn-unban" onclick="confirmUnban()">有効化する</button>
         </form>
         @else
         {{-- 停止フォーム（停止理由を prompt で収集） --}}
@@ -216,15 +216,21 @@
 
 @push('scripts')
 <script>
+var _agentName = @json($report->agent?->name ?? '');
+
 function confirmBan() {
-    var agentName = @json($report->agent->name ?? '');
     var reason = window.prompt(
-        agentName + ' のアカウントを停止します。\n停止理由を入力してください（ユーザーへの表示に使用されます）：',
+        _agentName + ' のアカウントを停止します。\n停止理由を入力してください（ユーザーへの表示に使用されます）：',
         ''
     );
     if (reason === null) return; // キャンセル
     document.getElementById('ban-reason-input').value = reason;
     document.getElementById('ban-form').submit();
+}
+
+function confirmUnban() {
+    if (! window.confirm(_agentName + ' のアカウントを有効化しますか？')) return;
+    document.getElementById('unban-form').submit();
 }
 </script>
 @endpush

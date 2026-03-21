@@ -108,16 +108,20 @@
            class="{{ request()->routeIs('admin.kyc.*') ? 'active' : '' }}">
             <span class="material-icons-outlined">verified_user</span>KYC審査
         </a>
+        @can('view-sensitive-data')
         <a href="{{ route('admin.reports.index') }}"
            class="{{ request()->routeIs('admin.reports.*') ? 'active' : '' }}">
             <span class="material-icons-outlined">flag</span>通報管理
         </a>
+        @endcan
 
+        @can('view-sensitive-data')
         <div class="admin-nav-section">設定</div>
-        <a href="{{ route('admin.admins.create') }}"
+        <a href="{{ route('admin.admins.index') }}"
            class="{{ request()->routeIs('admin.admins.*') ? 'active' : '' }}">
-            <span class="material-icons-outlined">admin_panel_settings</span>管理者追加
+            <span class="material-icons-outlined">admin_panel_settings</span>管理者管理
         </a>
+        @endcan
     </nav>
     <div class="admin-sidebar-footer">
         @auth('admin')
@@ -140,6 +144,10 @@
     <div class="admin-content">
         @yield('content')
     </div>
+    <footer style="text-align:center;padding:16px;font-size:0.75rem;color:#9ca3af;border-top:1px solid #e8eaf0;margin-top:24px;">
+        <a href="{{ route('terms') }}" style="color:#6b7280;text-decoration:none;margin:0 10px;">利用規約</a>
+        <a href="{{ route('privacy') }}" style="color:#6b7280;text-decoration:none;margin:0 10px;">プライバシーポリシー</a>
+    </footer>
 </div>
 
 @stack('scripts')

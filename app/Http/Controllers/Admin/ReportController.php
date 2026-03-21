@@ -7,6 +7,7 @@ use App\Models\Agent;
 use App\Models\Report;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 class ReportController extends Controller
@@ -40,6 +41,8 @@ class ReportController extends Controller
 
     public function show(Report $report): View
     {
+        abort_unless(Gate::check('view-sensitive-data'), 403, 'この操作は特権管理者のみ実行できます。');
+
         $report->load(['user', 'agent']);
 
         return view('admin.reports.show', [
@@ -50,6 +53,8 @@ class ReportController extends Controller
 
     public function update(Request $request, Report $report): RedirectResponse
     {
+        abort_unless(Gate::check('view-sensitive-data'), 403, 'この操作は特権管理者のみ実行できます。');
+
         $request->validate([
             'status' => ['required', 'integer', 'in:0,1,2,9'],
         ]);
@@ -73,6 +78,8 @@ class ReportController extends Controller
 
     public function banAgent(Request $request, Report $report): RedirectResponse
     {
+        abort_unless(Gate::check('view-sensitive-data'), 403, 'この操作は特権管理者のみ実行できます。');
+
         $agent = Agent::findOrFail($report->agent_id);
 
         if ($agent->life_flg) {

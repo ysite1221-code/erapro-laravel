@@ -37,6 +37,11 @@
     @yield('content')
 </main>
 
+<footer style="text-align:center;padding:20px 16px;font-size:0.78rem;color:#9ca3af;border-top:1px solid #e5e7eb;margin-top:32px;">
+    <a href="{{ route('terms') }}" style="color:#6b7280;text-decoration:none;margin:0 10px;">利用規約</a>
+    <a href="{{ route('privacy') }}" style="color:#6b7280;text-decoration:none;margin:0 10px;">プライバシーポリシー</a>
+</footer>
+
 @stack('scripts')
 </body>
 </html>

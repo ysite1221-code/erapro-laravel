@@ -55,36 +55,6 @@
         }
         .admin-logout-btn:hover { background: rgba(239,68,68,0.2); color: #fc8181; border-color: rgba(239,68,68,0.3); }
 
-        /* フッター */
-        .admin-footer {
-            width: 100%;
-            padding: 20px 0 24px;
-            border-top: 1px solid #e8eaf0;
-            background: transparent;
-            margin-top: auto;
-        }
-        .admin-footer .footer-links {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: nowrap;
-            gap: 32px;
-        }
-        .admin-footer .footer-links a {
-            white-space: nowrap;
-            font-size: 0.78rem;
-            color: #6b7280;
-            text-decoration: none;
-            transition: color 0.18s;
-        }
-        .admin-footer .footer-links a:hover { color: #1a1f36; text-decoration: underline; }
-        .admin-footer .copyright {
-            text-align: center;
-            margin-top: 10px;
-            font-size: 0.72rem;
-            color: #9ca3af;
-        }
-
         /* メインエリア */
         .admin-main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
         .admin-topbar {
@@ -174,13 +144,44 @@
     <div style="flex:1; padding:28px 32px 60px;">
         @yield('content')
     </div>
-    <footer style="width:100%; padding:24px 0; margin-top:auto; border-top:1px solid #eaeaea; background:transparent;">
-        <div style="display:flex; justify-content:center; align-items:center; gap:32px; flex-wrap:nowrap;">
-            <a href="{{ route('terms') }}"   style="white-space:nowrap; color:#555; text-decoration:none; font-size:14px;">利用規約</a>
-            <a href="{{ route('privacy') }}" style="white-space:nowrap; color:#555; text-decoration:none; font-size:14px;">プライバシーポリシー</a>
-            <a href="{{ route('agent.lp') }}" style="white-space:nowrap; color:#555; text-decoration:none; font-size:14px;">保険募集人の掲載登録について</a>
+    <style>
+        .admin-footer-custom {
+            width: 100%;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #e5e7eb;
+            margin-top: auto;
+        }
+        .admin-footer-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 32px;
+            margin-bottom: 12px;
+        }
+        .admin-footer-links a {
+            color: #4b5563;
+            text-decoration: none;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+        .admin-footer-links a:hover {
+            color: #111827;
+            text-decoration: underline;
+        }
+        .admin-footer-copy {
+            text-align: center;
+            color: #9ca3af;
+            font-size: 12px;
+        }
+    </style>
+    <footer class="admin-footer-custom">
+        <div class="admin-footer-links">
+            <a href="{{ route('terms') }}">利用規約</a>
+            <a href="{{ route('privacy') }}">プライバシーポリシー</a>
+            <a href="{{ route('agent.lp') }}">保険募集人の掲載登録について</a>
         </div>
-        <div style="text-align:center; margin-top:12px; font-size:12px; color:#999;">
+        <div class="admin-footer-copy">
             &copy; {{ date('Y') }} ERAPRO.
         </div>
     </footer>

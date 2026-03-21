@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Agent;
 use App\Models\Inquiry;
 use App\Models\InquiryMessage;
+use App\Models\Report;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -71,11 +72,27 @@ class DashboardController extends Controller
             ->latest('updated_at')
             ->get();
 
-        // 未読件数：エージェントから送信されたis_read=falseのメッセージ数
-        $unreadCount = InquiryMessage::whereHas('inquiry', fn($q) => $q->where('user_id', $user->id))
+        // 未読メッセージ数（エージェントからの未読）
+        $unreadMsgCount = InquiryMessage::whereHas('inquiry', fn($q) => $q->where('user_id', $user->id))
             ->where('sender_type', 'agent')
             ->where('is_read', false)
             ->count();
+
+        // 未読通報件数（自分の通報で運営がステータス更新したが未確認のもの）
+        $unreadReportCount = Report::where('user_id', $user->id)
+            ->where('reporter_type', 'user')
+            ->where('is_read_by_user', false)
+            ->count();
+
+        $unreadCount = $unreadMsgCount + $unreadReportCount;
+
+        // 通報履歴（自分が行った通報、最新10件）
+        $myReports = Report::where('user_id', $user->id)
+            ->where('reporter_type', 'user')
+            ->with('agent')
+            ->latest()
+            ->limit(10)
+            ->get();
 
         // 関心事パース
         $userInterests = !empty($user->interests)
@@ -121,9 +138,9 @@ class DashboardController extends Controller
         $allInterests = ['結婚', '妊娠・出産', '住宅購入', '教育資金', '資産運用', '老後の備え', '自動車購入'];
 
         return view('user.dashboard', compact(
-            'user', 'favorites', 'myAgents', 'unreadCount',
+            'user', 'favorites', 'myAgents', 'unreadCount', 'unreadReportCount',
             'userInterests', 'recommended', 'nearbyAgents',
-            'typeLabels', 'allInterests'
+            'typeLabels', 'allInterests', 'myReports'
         ));
     }
 }

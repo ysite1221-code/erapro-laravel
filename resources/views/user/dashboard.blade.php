@@ -360,7 +360,7 @@
     </div>
     @endif
 
-    {{-- タブ: お気に入り / My Agent --}}
+    {{-- タブ: お気に入り / My Agent / 通報履歴 --}}
     <div class="tab-nav">
         <button class="tab-btn active" data-tab="favorites">
             ❤️ お気に入り
@@ -369,6 +369,18 @@
         <button class="tab-btn" data-tab="my_agents">
             ⭐ My Agent
             <span class="count">{{ $myAgents->count() }}</span>
+        </button>
+        <button class="tab-btn" data-tab="reports" style="position:relative;">
+            🚨 通報履歴
+            <span class="count">{{ $myReports->count() }}</span>
+            @if ($unreadReportCount > 0)
+            <span style="position:absolute;top:4px;right:4px;background:#ef4444;color:#fff;
+                         font-size:0.62rem;font-weight:700;min-width:16px;height:16px;
+                         border-radius:8px;display:inline-flex;align-items:center;
+                         justify-content:center;padding:0 3px;line-height:1;">
+                {{ $unreadReportCount }}
+            </span>
+            @endif
         </button>
     </div>
 
@@ -450,6 +462,55 @@
             <span class="empty-icon">⭐</span>
             <p>まだMy Agentが登録されていません。<br>プロフィールページから「My Agentに登録」してみましょう。</p>
             <a href="{{ route('search') }}">プロを探す</a>
+        </div>
+        @endif
+    </div>
+
+    {{-- 通報履歴タブ --}}
+    <div class="tab-content" id="tab-reports">
+        @if ($myReports->isNotEmpty())
+        <div style="display:flex;flex-direction:column;gap:12px;">
+            @php
+            $reportStatusLabels = [0 => '未対応', 1 => '対応中', 2 => '対応済み', 9 => '却下'];
+            $reportStatusColors = [
+                0 => 'background:#fff7ed;color:#c2410c;border:1px solid #fed7aa;',
+                1 => 'background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;',
+                2 => 'background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;',
+                9 => 'background:#f9fafb;color:#9ca3af;border:1px solid #e5e7eb;',
+            ];
+            @endphp
+            @foreach ($myReports as $rpt)
+            <a href="{{ route('user.reports.show', $rpt->id) }}"
+               style="background:#fff;border-radius:10px;border:1.5px solid {{ $rpt->is_read_by_user ? '#f0f0f0' : '#ef4444' }};
+                      padding:16px 20px;text-decoration:none;color:inherit;display:block;
+                      transition:box-shadow 0.2s;position:relative;"
+               onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.08)'"
+               onmouseout="this.style.boxShadow='none'">
+                @if (! $rpt->is_read_by_user)
+                <span style="position:absolute;top:10px;right:10px;background:#ef4444;color:#fff;
+                             font-size:0.65rem;font-weight:700;padding:2px 8px;border-radius:10px;">
+                    NEW
+                </span>
+                @endif
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+                    <span style="font-size:0.82rem;color:#9ca3af;">#{{ $rpt->id }}</span>
+                    <span style="display:inline-block;padding:3px 10px;border-radius:10px;
+                                 font-size:0.72rem;font-weight:700;{{ $reportStatusColors[$rpt->status] ?? '' }}">
+                        {{ $reportStatusLabels[$rpt->status] ?? '?' }}
+                    </span>
+                    <span style="font-size:0.8rem;color:#555;font-weight:600;">
+                        対象: {{ $rpt->agent?->name ?? '削除済みエージェント' }}
+                    </span>
+                </div>
+                <div style="font-size:0.88rem;color:#333;margin-bottom:4px;">{{ $rpt->reason }}</div>
+                <div style="font-size:0.76rem;color:#aaa;">{{ $rpt->created_at->format('Y年n月j日 H:i') }} 送信</div>
+            </a>
+            @endforeach
+        </div>
+        @else
+        <div class="empty-state">
+            <span class="empty-icon">🚨</span>
+            <p>まだ通報の履歴はありません。</p>
         </div>
         @endif
     </div>

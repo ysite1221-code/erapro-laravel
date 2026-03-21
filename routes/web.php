@@ -85,6 +85,7 @@ Route::middleware('auth:user')->group(function () {
     Route::post('/inquiries/{inquiry}/messages',        [InquiryController::class, 'storeMessage'])->name('user.inquiries.messages.store');
     Route::get('/report/{agentId}',                     [ReportController::class, 'create'])->name('user.report.create');
     Route::post('/report/{agentId}',                    [ReportController::class, 'store'])->name('user.report.store');
+    Route::get('/my-reports/{report}',                  [ReportController::class, 'myShow'])->name('user.reports.show');
 });
 
 /*
@@ -149,9 +150,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::patch('/agents/{agent}/toggle-status', [AdminAgentController::class, 'toggleStatus'])->name('agents.toggle_status');
         Route::get('/users',          [AdminUserController::class, 'index'])->name('users.index');
         Route::patch('/users/{user}/toggle-status', [AdminUserController::class, 'toggleStatus'])->name('users.toggle_status');
-        Route::get('/reports',            [AdminReportController::class, 'index'])->name('reports.index');
-        Route::get('/reports/{report}',   [AdminReportController::class, 'show'])->name('reports.show');
-        Route::patch('/reports/{report}', [AdminReportController::class, 'update'])->name('reports.update');
+        Route::get('/reports',                       [AdminReportController::class, 'index'])->name('reports.index');
+        Route::get('/reports/{report}',             [AdminReportController::class, 'show'])->name('reports.show');
+        Route::patch('/reports/{report}',           [AdminReportController::class, 'update'])->name('reports.update');
+        Route::post('/reports/{report}/ban-agent',  [AdminReportController::class, 'banAgent'])->name('reports.ban_agent');
         Route::get('/admins/create',  [AdminAdminController::class, 'create'])->name('admins.create');
         Route::post('/admins',        [AdminAdminController::class, 'store'])->name('admins.store');
     });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Agent;
 use App\Models\Report;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -53,10 +54,30 @@ class ReportController extends Controller
             'status' => ['required', 'integer', 'in:0,1,2,9'],
         ]);
 
-        $report->update(['status' => $request->integer('status')]);
+        $newStatus = $request->integer('status');
+
+        // ステータスが変わった場合、ユーザー側を未読にリセット（通報者=userの場合のみ）
+        $isReadByUser = ($report->reporter_type !== 'user' || $newStatus === $report->status)
+            ? $report->is_read_by_user
+            : false;
+
+        $report->update([
+            'status'           => $newStatus,
+            'is_read_by_user'  => $isReadByUser,
+        ]);
 
         return redirect()
             ->route('admin.reports.show', $report)
             ->with('status', '対応ステータスを更新しました。');
+    }
+
+    public function banAgent(Report $report): RedirectResponse
+    {
+        $agent = Agent::findOrFail($report->agent_id);
+        $agent->update(['life_flg' => 1]);
+
+        return redirect()
+            ->route('admin.reports.show', $report)
+            ->with('status', "{$agent->name} のアカウントを停止しました。");
     }
 }

@@ -64,6 +64,25 @@
         cursor: pointer; font-family: inherit; transition: background 0.18s;
     }
     .btn-save:hover { background: #374151; }
+
+    .ban-card {
+        background: #fff5f5; border-radius: 10px; border: 1px solid #fecaca;
+        padding: 24px 32px; margin-top: 16px;
+    }
+    .ban-card h3 { font-size: 0.925rem; font-weight: 700; color: #991b1b; margin-bottom: 8px; }
+    .ban-card p  { font-size: 0.82rem; color: #6b7280; margin-bottom: 14px; }
+    .btn-ban {
+        padding: 9px 24px; background: #dc2626; color: #fff; border: none;
+        border-radius: 6px; font-size: 0.855rem; font-weight: 600;
+        cursor: pointer; font-family: inherit; transition: background 0.18s;
+    }
+    .btn-ban:hover { background: #b91c1c; }
+    .btn-unban {
+        padding: 9px 24px; background: #6b7280; color: #fff; border: none;
+        border-radius: 6px; font-size: 0.855rem; font-weight: 600;
+        cursor: pointer; font-family: inherit; transition: background 0.18s;
+    }
+    .btn-unban:hover { background: #4b5563; }
 </style>
 @endpush
 
@@ -144,6 +163,34 @@
         </select>
         <button type="submit" class="btn-save">更新する</button>
     </form>
+
+    {{-- エージェントBAN（通報対象がエージェントの場合のみ） --}}
+    @if ($report->reporter_type === 'user' && $report->agent)
+    <div class="ban-card" style="margin-top:20px;">
+        <h3>⚠️ エージェントアカウント操作</h3>
+        <p>
+            対象エージェント: <strong>{{ $report->agent->name }}</strong>
+            &nbsp;
+            @if ($report->agent->life_flg)
+            <span style="background:#fef2f2;color:#dc2626;border:1px solid #fecaca;
+                         padding:2px 8px;border-radius:10px;font-size:0.72rem;font-weight:700;">停止中</span>
+            @else
+            <span style="background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;
+                         padding:2px 8px;border-radius:10px;font-size:0.72rem;font-weight:700;">有効</span>
+            @endif
+        </p>
+        <form method="POST"
+              action="{{ route('admin.reports.ban_agent', $report) }}"
+              onsubmit="return confirm('{{ $report->agent->life_flg ? 'アカウントを有効化しますか？' : 'このエージェントのアカウントを停止しますか？' }}')">
+            @csrf
+            @if ($report->agent->life_flg)
+            <button type="submit" class="btn-unban">有効化する</button>
+            @else
+            <button type="submit" class="btn-ban">アカウントを停止する</button>
+            @endif
+        </form>
+    </div>
+    @endif
 </div>
 
 @endsection

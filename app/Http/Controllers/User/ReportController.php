@@ -60,4 +60,18 @@ class ReportController extends Controller
         return redirect()->route('agent.profile', $agent->id)
             ->with('status', '通報を受け付けました。運営が内容を確認いたします。');
     }
+
+    public function myShow(Report $report): View
+    {
+        abort_if($report->user_id !== Auth::guard('user')->id(), 403);
+
+        $report->load('agent');
+
+        // 確認済みにする
+        if (! $report->is_read_by_user) {
+            $report->update(['is_read_by_user' => true]);
+        }
+
+        return view('user.report_detail', compact('report'));
+    }
 }

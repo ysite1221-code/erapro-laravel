@@ -101,7 +101,7 @@
     <div class="empty-state">
         <span class="empty-icon">📭</span>
         <p>まだ相談リクエストを送ったことがありません。<br>気になるプロに相談してみましょう！</p>
-        <a href="{{ route('search') }}">プロを探す</a>
+        <a href="{{ route('search') }}">保険のプロを探す</a>
     </div>
     @endif
 

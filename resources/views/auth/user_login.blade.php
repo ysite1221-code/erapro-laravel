@@ -185,7 +185,7 @@
     </div>
 
     <div class="links" style="margin-top:12px;">
-        募集人の方は <a href="{{ route('agent.login') }}">こちら</a>
+        Agentの方は <a href="{{ route('agent.login') }}">こちら</a>
     </div>
 </div>
 

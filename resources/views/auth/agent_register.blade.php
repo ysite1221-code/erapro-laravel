@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>募集人登録 | ERAPRO</title>
+    <title>Agent登録 | ERAPRO</title>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0fdf4; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
@@ -28,7 +28,7 @@
 <body>
 <div class="card">
     <h1>ERAPRO</h1>
-    <p class="sub">募集人・エージェント登録</p>
+    <p class="sub">Agent登録</p>
 
     <div class="notice">
         ✅ 登録後にメールアドレスの認証が必要です。<br>

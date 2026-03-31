@@ -62,7 +62,7 @@
         すでにアカウントをお持ちの方は <a href="{{ route('login') }}">ログイン</a>
     </div>
     <div class="links" style="margin-top:10px;">
-        募集人の方は <a href="{{ route('agent.register') }}">こちら</a>
+        Agentの方は <a href="{{ route('agent.register') }}">こちら</a>
     </div>
 </div>
 </body>

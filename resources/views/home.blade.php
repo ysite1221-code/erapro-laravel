@@ -139,7 +139,7 @@
         <p class="hero-sub">INSURANCE × REPUTATION</p>
         <h1>保険選びは、<br>「商品」から「人」へ。</h1>
         <p>あなたの価値観に合うプロフェッショナルが、<br>きっと見つかります。</p>
-        <a href="{{ route('search') }}" class="btn-search">プロフェッショナルを探す</a>
+        <a href="{{ route('search') }}" class="btn-search">保険のプロを探す</a>
     </div>
 
     <!-- 特徴セクション -->
@@ -170,7 +170,7 @@
         <div class="cta-inner">
             <h2>まず、探してみよう。</h2>
             <p>全国のERAPROメンバーが、あなたの相談を待っています。</p>
-            <a href="{{ route('search') }}" class="btn-cta">プロを探す</a>
+            <a href="{{ route('search') }}" class="btn-cta">保険のプロを探す</a>
         </div>
     </div>
 

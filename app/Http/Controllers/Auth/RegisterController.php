@@ -176,11 +176,11 @@ class RegisterController extends Controller
         $url = route('agent.email.verify', ['token' => $token]);
 
         Mail::raw(
-            "ERAPRO 募集人登録を申請いただきありがとうございます、{$agent->name} さん！\n\n"
+            "ERAPRO Agent登録を申請いただきありがとうございます、{$agent->name} さん！\n\n"
             . "以下のリンクをクリックしてメールアドレスを認証してください。\n\n"
             . "{$url}\n\n"
             . "認証後、KYC（本人確認）書類の提出をお願いします。",
-            fn($m) => $m->to($agent->email)->subject('【ERAPRO募集人】メールアドレスの認証をお願いします')
+            fn($m) => $m->to($agent->email)->subject('【ERAProAgent】メールアドレスの認証をお願いします')
         );
     }
 }

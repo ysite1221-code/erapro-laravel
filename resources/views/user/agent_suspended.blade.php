@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', '募集人が活動を停止しています - ERAPRO')
+@section('title', 'Agentが活動を停止しています - ERAPRO')
 
 @push('styles')
 <style>
@@ -30,7 +30,7 @@
 @section('content')
 <div class="wrap">
     <div class="icon">🚫</div>
-    <h1>この募集人は現在活動を停止しています</h1>
+    <h1>このAgentは現在活動を停止しています</h1>
     <div class="agent-name">{{ $agent->name }}</div>
     <p class="sub">
         申し訳ありませんが、このエージェントは現在ご利用いただけない状態です。<br>

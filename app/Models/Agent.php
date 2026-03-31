@@ -21,7 +21,7 @@ class Agent extends Authenticatable implements MustVerifyEmail
             . "以下のリンクからパスワードをリセットしてください（有効期限: 60分）。\n\n"
             . "{$url}\n\n"
             . "※ 心当たりのない場合は無視してください。",
-            fn($m) => $m->to($this->email)->subject('【ERAPRO募集人】パスワードリセット')
+            fn($m) => $m->to($this->email)->subject('【ERAProAgent】パスワードリセット')
         );
     }
 

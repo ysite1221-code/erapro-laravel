@@ -39,7 +39,7 @@
                         <button type="submit" class="btn-login" style="border:none;cursor:pointer;">ログアウト</button>
                     </form>
                 @else
-                    <a href="{{ route('agent.lp') }}" class="header-nav-link">募集人の方はこちら</a>
+                    <a href="{{ route('agent.lp') }}" class="header-nav-link">Agentの方はこちら</a>
                     <a href="{{ route('login') }}" class="btn-login">ログイン</a>
                 @endif
             </nav>

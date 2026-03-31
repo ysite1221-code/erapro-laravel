@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'プロを探す - ERAPRO')
+@section('title', '保険のプロを探す - ERAPRO')
 
 @push('styles')
 <style>
@@ -83,7 +83,7 @@
 
 <div class="page-header">
     <div class="page-header-inner">
-        <h1>プロフェッショナルを探す</h1>
+        <h1>保険のプロを探す</h1>
         <p>エリア・キーワードで、あなたに合う保険のプロを見つけましょう。</p>
     </div>
 </div>

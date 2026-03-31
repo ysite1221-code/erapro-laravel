@@ -99,7 +99,7 @@
         <div class="kyc-wrap" style="padding-left:0;padding-right:0;">
 
             <h2 class="page-title">本人確認（KYC）</h2>
-            <p class="page-sub">所属先・募集人登録情報のURLを提出してください。審査完了後にプロフィールが公開されます。</p>
+            <p class="page-sub">所属先・Agent登録情報のURLを提出してください。審査完了後にプロフィールが公開されます。</p>
 
             @if (session('status'))
             <div class="alert-success">✅ {{ session('status') }}</div>
@@ -166,7 +166,7 @@
                 <div>
                     <div class="status-card-title">審査が否認されました</div>
                     <div class="status-card-body">
-                        提出されたURLでは募集人登録情報を確認できませんでした。<br>
+                        提出されたURLではAgent登録情報を確認できませんでした。<br>
                         正しいURLに修正して再提出してください。<br>
                         @if ($agent->affiliation_url)
                         前回のURL: <code style="background:#ffebee;padding:2px 6px;border-radius:4px;">{{ $agent->affiliation_url }}</code>
@@ -193,16 +193,16 @@
             <div class="notice-box">
                 <h4>📌 提出するURLについて</h4>
                 <ul>
-                    <li>所属保険代理店・生命保険会社の公式サイト上に、あなたのお名前・募集人番号が掲載されているページのURLを入力してください。</li>
-                    <li>金融庁「保険募集人情報検索サービス」のURLも使用可能です。</li>
+                    <li>所属保険代理店・生命保険会社の公式サイト上に、あなたのお名前・Agent番号が掲載されているページのURLを入力してください。</li>
+                    <li>金融庁「保険Agent情報検索サービス」のURLも使用可能です。</li>
                     <li>URLは <strong>https://</strong> から始まる公開URLである必要があります。</li>
                     <li>審査結果はメールにてお知らせします。</li>
                 </ul>
             </div>
 
             <div class="form-card">
-                <h3>募集人登録情報 URL</h3>
-                <p>所属先または金融庁のサイトで、あなたの募集人登録が確認できるページのURLを入力してください。</p>
+                <h3>Agent登録情報 URL</h3>
+                <p>所属先または金融庁のサイトで、あなたのAgent登録が確認できるページのURLを入力してください。</p>
                 <form action="{{ route('agent.kyc.submit') }}" method="POST">
                     @csrf
                     <div class="form-group">

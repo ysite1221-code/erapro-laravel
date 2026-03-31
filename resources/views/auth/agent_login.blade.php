@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>募集人ログイン | ERAPRO</title>
+    <title>Agentログイン | ERAPRO</title>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -142,7 +142,7 @@
 
 <div class="login-card">
     <h1>ERAPRO</h1>
-    <p class="subtitle">募集人ポータル</p>
+    <p class="subtitle">Agentポータル</p>
     <div class="badge-wrap">
         <span class="badge">Agent Login</span>
     </div>

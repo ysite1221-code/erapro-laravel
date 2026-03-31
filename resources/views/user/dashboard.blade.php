@@ -242,7 +242,7 @@
     <div class="quick-actions">
         <a href="{{ route('search') }}" class="qa-card">
             <span class="qa-icon">🔍</span>
-            <h3>プロを探す</h3>
+            <h3>保険のプロを探す</h3>
             <p>エリア・タグで検索</p>
         </a>
         <a href="{{ route('diagnosis') }}" class="qa-card">
@@ -419,7 +419,7 @@
         <div class="empty-state">
             <span class="empty-icon">❤️</span>
             <p>まだお気に入りに追加していません。<br>気になるプロを♡でお気に入り登録しましょう。</p>
-            <a href="{{ route('search') }}">プロを探す</a>
+            <a href="{{ route('search') }}">保険のプロを探す</a>
         </div>
         @endif
     </div>
@@ -461,7 +461,7 @@
         <div class="empty-state">
             <span class="empty-icon">⭐</span>
             <p>まだMy Agentが登録されていません。<br>プロフィールページから「My Agentに登録」してみましょう。</p>
-            <a href="{{ route('search') }}">プロを探す</a>
+            <a href="{{ route('search') }}">保険のプロを探す</a>
         </div>
         @endif
     </div>

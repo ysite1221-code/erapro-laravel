@@ -129,7 +129,7 @@
                 <span class="kyc-banner-icon">🔐</span>
                 <div class="kyc-banner-text">
                     <strong>本人確認（KYC）が未完了です</strong>
-                    <span>所属先・募集人登録情報のURLを提出することで、プロフィールが公開されます。</span>
+                    <span>所属先・Agent登録情報のURLを提出することで、プロフィールが公開されます。</span>
                 </div>
                 <span class="kyc-banner-arrow">→</span>
             </a>

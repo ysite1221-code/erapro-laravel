@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', '保険募集人の掲載登録 | ERAPRO')
+@section('title', '保険Agentの掲載登録 | ERAPRO')
 
 @push('styles')
 <style>
@@ -68,7 +68,7 @@
 <div class="lp-hero">
     <p class="sub">ERAPRO / FOR INSURANCE PROFESSIONALS</p>
     <h1>あなたの「想い」を、<br>ユーザーに届けよう。</h1>
-    <p>ERAPROは、保険募集人が自分のストーリーとフィロソフィーで<br>ユーザーと出会えるプラットフォームです。</p>
+    <p>ERAPROは、保険Agentが自分のストーリーとフィロソフィーで<br>ユーザーと出会えるプラットフォームです。</p>
     <a href="{{ route('agent.register') }}" class="btn-lp-cta">無料で掲載登録する</a>
 </div>
 
@@ -133,7 +133,7 @@
         <div class="step">
             <div class="step-num">3</div>
             <h4>KYC（本人確認）</h4>
-            <p>募集人証・身分証を提出して認証バッジを取得。</p>
+            <p>Agent証・身分証を提出して認証バッジを取得。</p>
         </div>
         <div class="step">
             <div class="step-num">4</div>

@@ -9,7 +9,7 @@
             <nav class="header-nav" style="display:flex;align-items:center;gap:20px;">
                 <a href="{{ url('/') }}"
                    style="color:rgba(255,255,255,0.72);text-decoration:none;font-size:0.855rem;letter-spacing:0.02em;transition:color 0.2s;"
-                   onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.72)'">一般の方はこちら</a>
+                   onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.72)'">保険の相談をしたい方はこちら</a>
                 <a href="{{ route('agent.login') }}"
                    style="display:inline-block;padding:8px 22px;background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.45);border-radius:5px;font-size:0.855rem;font-weight:600;text-decoration:none;letter-spacing:0.03em;transition:all 0.2s;"
                    onmouseover="this.style.background='rgba(255,255,255,0.12)';this.style.borderColor='rgba(255,255,255,0.8)'" onmouseout="this.style.background='transparent';this.style.borderColor='rgba(255,255,255,0.45)'">ログイン</a>
